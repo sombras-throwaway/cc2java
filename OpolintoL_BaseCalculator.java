@@ -54,7 +54,7 @@ public class OpolintoL_BaseCalculator {
             }
             int firstNumber = Integer.parseInt(userInput, originSystem);
             
-            System.out.println("Enter the second number.. Enter \"STOP\" at any time to terminate the program.");
+            System.out.println("Enter the second number. Enter \"STOP\" at any time to terminate the program.");
             userInput = gioScanner.nextLine().toUpperCase();
            
             if(userInput.equals("STOP")){//Input handling
@@ -68,11 +68,21 @@ public class OpolintoL_BaseCalculator {
             int remainder = firstNumber % secondNumber;
             int product = firstNumber * secondNumber;
             
-            System.out.println(Integer.toString(sum, targetSystem));
-            System.out.println(Integer.toString(diff, targetSystem));
-            System.out.println(Integer.toString(quotient, targetSystem));
-            System.out.println(Integer.toString(remainder, targetSystem));
-            System.out.println(Integer.toString(product, targetSystem));
+            if (targetSystem == 2){
+                System.out.println("Sum:\t\t" + Integer.toBinaryString(sum));
+                System.out.println("Difference:\t" + Integer.toBinaryString(diff));
+                System.out.println("Quotient:\t" + Integer.toBinaryString(quotient));
+                System.out.println("Remainder:\t" + Integer.toBinaryString(remainder));
+                System.out.println("Product:\t" + Integer.toBinaryString(product));
+            } else{
+                System.out.println("Sum:\t\t" + Integer.toString(sum, targetSystem));
+                System.out.println("Difference:\t" + Integer.toString(diff, targetSystem));
+                System.out.println("Quotient:\t" + Integer.toString(quotient, targetSystem));
+                System.out.println("Remainder:\t" + Integer.toString(remainder, targetSystem));
+                System.out.println("Product:\t" + Integer.toString(product, targetSystem));
+            }
+            
+            
         }
     }
 }
