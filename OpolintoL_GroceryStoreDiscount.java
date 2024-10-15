@@ -1,14 +1,16 @@
+package Activities;
 import java.util.Scanner;
+
 public class OpolintoL_GroceryStoreDiscount {
     public static void main(String[] args){
-        Scanner gioScanner = new Scanner(System.in);
-        System.out.print("Enter the total purchase amount: PHP");
-        int purchaseAmount;
+        Scanner gioScanner = new Scanner(System.in);//declares scanner
+        System.out.print("Enter the total purchase amount: PHP");//prompts the user for an input
+        int purchaseAmount; //variable declaration
         float discount, finalDue;
         
-        purchaseAmount = gioScanner.nextInt();
-        if(purchaseAmount < 1000){
-            discount = 1f;
+        purchaseAmount = gioScanner.nextInt();//collection of user input
+        if(purchaseAmount < 1000){//starts evaluating if purchaseAmount avails a discount
+            discount = 1f;//assigns a corresponding discount float to be multiplied to the purchaseAmount later
             System.out.println("You have availed no discount.");
         }
         else if (1000 <= purchaseAmount && purchaseAmount <= 5000){
@@ -23,8 +25,8 @@ public class OpolintoL_GroceryStoreDiscount {
             discount = .85f;
             System.out.println("Congratulations! You have availed a 15% discount!");
         }
-        finalDue = purchaseAmount * discount;
-        System.out.print("Total amount due: ");
+        finalDue = purchaseAmount * discount;//multiplies purchaseAmount to the discount obtained to get the finalDue amount
+        System.out.print("Total amount due: ");//outputs the result
         System.out.printf("%.0f", finalDue);
         System.out.print("\n");
     }
