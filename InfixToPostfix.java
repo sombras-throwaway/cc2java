@@ -1,4 +1,3 @@
-package infixtopostfix;
 import java.util.*;
 
 public class InfixToPostfix {
@@ -20,9 +19,9 @@ public class InfixToPostfix {
         }
     }
 
-    // Checks if a character is an operand (digit or decimal point)
+    // Checks if a character is an operand (digit, decimal point, or variable)
     public static boolean isOperand(char ch) {
-        return Character.isDigit(ch) || ch == '.';
+        return Character.isDigit(ch) || ch == '.' || Character.isLetter(ch);
     }
 
     // Checks if an operator is right-associative
@@ -35,6 +34,10 @@ public class InfixToPostfix {
         Stack<Character> stack = new Stack<>();
         StringBuilder postfix = new StringBuilder();
 
+        // Print column headers
+        System.out.printf("%-10s | %-20s | %-20s%n", "Token", "Stack", "Output");
+        System.out.println("--------------------------------------------------------");
+
         for (int i = 0; i < infix.length(); i++) {
             char currentChar = infix.charAt(i);
 
@@ -43,7 +46,7 @@ public class InfixToPostfix {
                 continue;
             }
 
-            // Handle multi-digit numbers and floating-point numbers
+            // Handle multi-digit numbers, floating-point numbers, and variables
             if (isOperand(currentChar)) {
                 StringBuilder operand = new StringBuilder();
                 while (i < infix.length() && (isOperand(infix.charAt(i)) || infix.charAt(i) == '.')) {
@@ -67,18 +70,19 @@ public class InfixToPostfix {
             } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/' || currentChar == '^' || currentChar == '%') {
                 // Process operators
                 while (!stack.isEmpty() &&
-                    (getPrecedence(stack.peek()) > getPrecedence(currentChar) ||
-                    (getPrecedence(stack.peek()) == getPrecedence(currentChar) && !isRightAssociative(currentChar)))) {
+                        (getPrecedence(stack.peek()) > getPrecedence(currentChar) ||
+                                (getPrecedence(stack.peek()) == getPrecedence(currentChar) && !isRightAssociative(currentChar)))) {
                     postfix.append(stack.pop()).append(" ");
                 }
                 stack.push(currentChar); // Push the current operator onto the stack
             } else {
                 // Skip invalid characters (e.g., exclamation marks, random strings)
-                System.out.println("Skipping invalid character: " + currentChar);
+                System.out.printf("%-10s | %-20s | %-20s%n", currentChar, stack, postfix);
+                continue;
             }
 
-            System.out.println("Current stack: " + stack);
-            System.out.println("Current output: " + postfix);
+            // Print current token, stack, and output in columns
+            System.out.printf("%-10s | %-20s | %-20s%n", currentChar, stack, postfix);
         }
 
         // Pop remaining operators from the stack
@@ -115,93 +119,3 @@ public class InfixToPostfix {
         scanner.close();
     }
 }
-
-/*
-package infixtopostfix;
-import java.util.*;
-public class InfixToPostfix {
-
-    public static int getPrecedence(char operator) {
-        switch (operator) {
-            case '^': // Exponentiation has the highest precedence
-                return 3;
-            case '*':
-            case '/': // Multiplication and Division have precedence of 2
-            case '%':
-                return 2;
-            case '+':
-            case '-': // Addition and Subtraction have precedence of 1
-                return 1;
-            default:
-                return 0;
-        }
-    }
-    public static boolean isOperand(char ch) {
-        return Character.isLetterOrDigit(ch);
-    }
-    public static boolean isRightAssociative(char operator) {
-        return operator == '^'; // Exponentiation is right-associative
-    }
-    public static String infixToPostfix(String infix) {
-        Stack<Character> stack = new Stack<>();
-        StringBuilder postfix = new StringBuilder();
-       
-        for (int i = 0; i < infix.length(); i++) {
-            char currentChar = infix.charAt(i);
-           
-            if (isOperand(currentChar)) {
-                postfix.append(currentChar); // Directly append operands
-            } else if (currentChar == '(') {
-                stack.push(currentChar); // Push '(' onto the stack
-            } else if (currentChar == ')') {
-                // Pop until '(' is encountered
-                while (!stack.isEmpty() && stack.peek() != '(') {
-                    postfix.append(stack.pop());
-                }
-                stack.pop(); // Pop '('
-            } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/' || currentChar == '^' || currentChar == '%') {
-                // Process operators
-                while (!stack.isEmpty() &&
-                    (getPrecedence(stack.peek()) > getPrecedence(currentChar) ||
-                    (getPrecedence(stack.peek()) == getPrecedence(currentChar) && !isRightAssociative(currentChar)))) {
-                    postfix.append(stack.pop());
-                }
-                stack.push(currentChar); // Push the current operator onto the stack
-            }
-
-            System.out.println("Current stack: " + stack);
-            System.out.println("Current output: " + postfix);
-        }
-       
-        // Pop remaining operators from the stack
-        while (!stack.isEmpty()) {
-            postfix.append(stack.pop());
-        }
-       
-        return postfix.toString();
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String infix;
-
-        while (true) {
-            System.out.print("Enter an infix expression (or type 'exit' to quit): ");
-            infix = scanner.nextLine();
-           
-            if (infix.equalsIgnoreCase("exit")) {
-                break;
-            }
-
-            // Remove any spaces from the expression
-            infix = infix.replaceAll("\\s+", "");
-           
-            System.out.println("Converting infix to postfix...");
-            String postfix = infixToPostfix(infix);
-            System.out.println("Postfix expression: " + postfix);
-            System.out.println();
-        }
-        scanner.close();
-    }
-}
-*/
